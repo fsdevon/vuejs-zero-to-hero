@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VueJS</title>
+    <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-on:input="changeTitle" />
+      <p>{{sayHello()}} - <a v-bind:href="link">Google</a></p>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          title: "Hi fsdevon!",
+          link: "https://google.com"
+        },
+        methods: {
+          changeTitle: function (event) {
+            this.title = event.target.value;
+          },
+          sayHello: function () {
+            return this.title;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
