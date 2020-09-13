@@ -13,14 +13,17 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   layout: "admin",
   middleware: ["check-auth", "auth"],
   computed: {
-    loadedPosts() {
-      return this.$store.getters["post/loadedPosts"];
-    },
+    ...mapGetters({
+      loadedPosts: "post/loadedPosts",
+    }),
+    // loadedPosts() {
+    //   return this.$store.getters["post/loadedPosts"];
+    // },
   },
   methods: {
     onHome() {
