@@ -1665,6 +1665,39 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@yzfe/svgicon-gen@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@yzfe/svgicon-gen/-/svgicon-gen-1.0.1.tgz#1dc2fcbc8eb27ea124ba013c1b23fbe6e21c2528"
+  integrity sha512-thSkBQd36RJURyDAh3O5t6yCp9xaSzxyUh3RqE53zXxJZ3STogSXAS4vJMEL+uliVno53rI8UvJEZNRBR2QigQ==
+  dependencies:
+    lodash "^4.17.20"
+    svgo "^1.3.2"
+
+"@yzfe/svgicon-loader@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@yzfe/svgicon-loader/-/svgicon-loader-1.0.1.tgz#5825f60aba644db0204737357f796117c940b727"
+  integrity sha512-a4JLK64PIPXCyXViwNRLOjn8GYChaXYE7rXLLWuhbHLMs0/13EIojNTo7txUW+wcraDt8VqnIOHbX4clF1s53w==
+  dependencies:
+    "@yzfe/svgicon-gen" "^1.0.1"
+    loader-utils "^2.0.0"
+
+"@yzfe/svgicon@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@yzfe/svgicon/-/svgicon-1.0.1.tgz#c17578471f680dd16d43aa4b1a35d6df40536e1c"
+  integrity sha512-odoulRFpqvqDg52dqa8P+plYeeFeNQsu8Sr8aZQ/5Q6kHHXsYCD5CjlfVEFJL5ht/jrFBBYa/mLsFqmsoX7Fug==
+
+"@yzfe/vue-cli-plugin-svgicon@~1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@yzfe/vue-cli-plugin-svgicon/-/vue-cli-plugin-svgicon-1.0.1.tgz#f4ec5737a6e3aea79e8a03a1a602bffc55d19dcf"
+  integrity sha512-zCGMU159i+Dopoml+Zztw+3NRkSJ3B4F3rTqXz2sZvRmoDwlZjhX09LmQpykQt8Qbsx4YovisFenMYM3TnNXIw==
+  dependencies:
+    lodash "^4.17.20"
+
+"@yzfe/vue-svgicon@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@yzfe/vue-svgicon/-/vue-svgicon-4.0.1.tgz#95480062e3efe1e9513fa949091455e3e075adaa"
+  integrity sha512-vhhjB96iGAh2EfGA2fRnw2HEUKZZQDPBMw6BGCjkP+H+clPXy/uG+8P40AZyTOec2nBUqw29yQn35YwosukkWQ==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -5627,6 +5660,15 @@ loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3, loader-utils@^1.4
     emojis-list "^3.0.0"
     json5 "^1.0.1"
 
+loader-utils@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.0.tgz#e4cace5b816d425a166b5f097e10cd12b36064b0"
+  integrity sha512-rP4F0h2RaWSvPEkD7BLDFQnvSf+nK+wr3ESUjNTyAGobqrijmW92zc+SO6d4p4B1wh7+B/Jg1mkQe5NYUEHtHQ==
+  dependencies:
+    big.js "^5.2.2"
+    emojis-list "^3.0.0"
+    json5 "^2.1.2"
+
 locate-path@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-3.0.0.tgz#dbec3b3ab759758071b58fe59fc41871af21400e"
@@ -5672,7 +5714,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.3, lodash@~4.17.10:
+lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.3, lodash@~4.17.10:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
@@ -8403,7 +8445,7 @@ svg-tags@^1.0.0:
   resolved "https://registry.yarnpkg.com/svg-tags/-/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
   integrity sha1-WPcc7jvVGbWdSyqEO2x95krAR2Q=
 
-svgo@^1.0.0:
+svgo@^1.0.0, svgo@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-1.3.2.tgz#b6dc511c063346c9e415b81e43401145b96d4167"
   integrity sha512-yhy/sQYxR5BkC98CY7o31VGsg014AKLEPxdfhora76l36hD9Rdy5NZA/Ocn6yayNPgSamYdtX2rFJdcv07AYVw==
@@ -8977,6 +9019,11 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
+vue-class-component@^6.0.0, vue-class-component@^6.2.0:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-6.3.2.tgz#e6037e84d1df2af3bde4f455e50ca1b9eec02be6"
+  integrity sha512-cH208IoM+jgZyEf/g7mnFyofwPDJTM/QvBNhYMjqGB8fCsRyTf68rH2ISw/G20tJv+5mIThQ3upKwoL4jLTr1A==
+
 vue-class-component@^7.1.0, vue-class-component@^7.2.3:
   version "7.2.5"
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.2.5.tgz#212b3548c4fdd3314774c4adbc1c3792a40b52d0"
@@ -9027,6 +9074,13 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-property-decorator@^7.0.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-7.3.0.tgz#d50d67f0b0f1c814f9f2fba36d6eeccbcc62dbb6"
+  integrity sha512-HarXfTQ/Nxm4s/APpAaGIGHq5ZzslApImQy8ZrtkfGamw8rUFAVgMS5C50/AQ80+wfw3Wpnf4bNzbmj75m/k2Q==
+  dependencies:
+    vue-class-component "^6.2.0"
+
 vue-property-decorator@^8.4.2:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.5.1.tgz#571a91cf8d2b507f537d79bf8275af3184572fff"
@@ -9046,6 +9100,14 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   dependencies:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
+
+vue-svgicon@^4.0.1-alpha.0:
+  version "4.0.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/vue-svgicon/-/vue-svgicon-4.0.1-alpha.0.tgz#23a3281458beab4fa296de8d5be26371d34488fb"
+  integrity sha512-JDrrx0uUQQVdlwPmEXu7B+qk0jVIH7dVb3/akCT+aHlbBGtcpIhuAlMZ0bSN/lhwwNpi9x5vHJXfGoaTZ6i5LA==
+  dependencies:
+    vue-class-component "^6.0.0"
+    vue-property-decorator "^7.0.0"
 
 vue-template-compiler@^2.6.11:
   version "2.6.12"

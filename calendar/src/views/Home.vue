@@ -5,23 +5,26 @@
         <el-button
           type="primary"
           icon="el-icon-arrow-left"
-          size="medium"
+          size="small"
           @click.prevent="handlePreviousMonth"
-        >Previous</el-button>
-        <div>
-          <span>{{ tempMonth.format('MMMM YYYY') }}</span>
-          <i
-            v-if="checkResetMonth()"
-            class="reset-current-date el-icon-aim"
-            @click="resetCurrentMonth"
-          ></i>
-        </div>
-        <el-button
-          type="primary"
-          icon="el-icon-arrow-right"
-          size="medium"
-          @click.prevent="handleNextMonth"
+          >Previous</el-button
         >
+        <div>
+          <span>{{ tempCurrentMoment.format("MMMM YYYY") }}</span>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Go to current month"
+            placement="right"
+            v-if="checkResetMonth()"
+          >
+            <i
+              class="reset-current-date el-icon-aim"
+              @click="resetCurrentMonth"
+            />
+          </el-tooltip>
+        </div>
+        <el-button type="primary" size="small" @click.prevent="handleNextMonth">
           Next
           <i class="el-icon-arrow-right"></i>
         </el-button>
@@ -35,58 +38,76 @@
         <li>Thứ 7</li>
         <li>Chủ nhật</li>
       </ul>
-      <ul class="days">
+      <ul class="days" :key="updateCalendar">
         <li
-          v-for="(day, index) in calendar"
-          :key="index"
+          v-for="day in calendar"
+          :key="day.id"
           class="day"
-          :class="isOtherMonth(day) ? 'other-month': ''"
+          :class="isOtherMonth(day.moment) ? 'other-month' : ''"
           @click="onDateClick(day)"
         >
           <div class="date">
             <span
               class="day-number"
-              :class="isCurrentDate(day) ? 'active': isSunday(day) ? 'sunday': ''"
-            >{{ day.date() }}</span>
-            <span class="day-of-week">{{ day.format('dddd') }}</span>
-            <el-dropdown trigger="click">
+              :class="
+                isCurrentDate(day.moment)
+                  ? 'active'
+                  : isSunday(day.moment)
+                  ? 'sunday'
+                  : ''
+              "
+              >{{ day.moment.date() }}</span
+            >
+            <span class="day-of-week">{{ day.moment.format("dddd") }}</span>
+            <el-dropdown trigger="click" @command="handleCommand">
               <span class="el-dropdown-link">
                 <i class="el-icon-more"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>Action 1</el-dropdown-item>
-                <el-dropdown-item>Action 2</el-dropdown-item>
-                <el-dropdown-item>Action 3</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus" command="a"
+                  >Thêm ngày nghỉ</el-dropdown-item
+                >
+                <el-dropdown-item>Ngày nghỉ</el-dropdown-item>
+                <el-dropdown-item>Lịch họp</el-dropdown-item>
                 <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                <el-dropdown-item divided>Action 5</el-dropdown-item>
+                <el-dropdown-item divided icon="el-icon-money"
+                  >5.000 VND (phạt)</el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
           </div>
           <div class="day-activities">
-            <div v-if="checkAttendanceDay(day)" class="cin-cout-time">
+            <div v-if="checkAttendanceDay(day.moment)" class="cin-cout-time">
               <span>
                 <i class="el-icon-sunrise-1" />
-                08:15
+                {{ day.checkInTime.format("HH:mm") }}
               </span>
-              <span>....</span>
               <span>
                 <i class="el-icon-timer" />
-                8h
+                {{ getWorkTimeHour(day.checkInTime, day.checkOutTime) }}
               </span>
-              <span>....</span>
               <span>
                 <i class="el-icon-moon-night" />
-                17:30
+                {{ day.checkOutTime.format("HH:mm") }}
               </span>
             </div>
             <div>
-              <el-tag effect="dark" size="small">
+              <i class="el-icon-alarm-clock" />
+              <el-tag effect="dark" size="mini">
                 Nghi phep
                 <i class="el-icon-circle-check" />
               </el-tag>
             </div>
             <div>
-              <el-tag type="success" effect="dark" size="small">Metting sprint</el-tag>
+              <i class="el-icon-time" />
+              <span>09:30 - 10:30</span>
+              <el-tag type="warning" effect="dark" size="mini"
+                >Metting sprint</el-tag
+              >
+            </div>
+            <div>
+              <i class="el-icon-money" />
+              <span>5.000 VND</span>
             </div>
           </div>
         </li>
@@ -97,58 +118,89 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import * as moment from "moment";
+import moment from "moment";
 import "moment/locale/vi";
+
+interface CheckInOutCalendar {
+  id: number;
+  checkInTime?: moment.Moment;
+  checkOutTime?: moment.Moment;
+  moment: moment.Moment;
+}
 
 @Component({
   components: {}
 })
 export default class Home extends Vue {
-  private currentDate = moment().date();
+  private currentMoment = moment();
   private currentMonth = moment().month() + 1;
-  private tempMonth = moment();
-  private calendar: moment.Moment[] = [];
+  private tempCurrentMoment = moment();
+  private calendar: CheckInOutCalendar[] = [];
+  private updateCalendar = 0;
 
   created() {
     this.calculateCalendar();
   }
 
+  private handleCommand(command: any) {
+    this.$message("click on item " + command);
+  }
+
   private calculateCalendar() {
     this.calendar = [];
-    const startWeek = this.tempMonth.startOf("month").week();
+    const startWeek = this.tempCurrentMoment.startOf("month").week();
+    let id = 0;
     for (let week = startWeek; week < startWeek + 6; week++) {
       const days = Array(7)
         .fill(0)
-        .map((n, i) =>
-          moment()
+        .map((n, i) => {
+          const day = moment()
             .week(week)
             .startOf("week")
             .clone()
-            .add(n + i, "day")
-        );
+            .add(n + i, "day");
+          id++;
+          return {
+            id,
+            checkInTime: day.clone().set({ hour: 0, minute: 0 }),
+            checkOutTime: day.clone().set({ hour: 17, minute: 0 }),
+            moment: day
+          };
+        });
       this.calendar = this.calendar.concat(days);
     }
   }
 
+  private getWorkTimeHour(
+    checkInTime?: moment.Moment,
+    checkOutTime?: moment.Moment
+  ) {
+    if (checkInTime && checkOutTime) {
+      const duration = moment.duration(checkOutTime.diff(checkInTime));
+      return Math.max(duration.asHours() - 1.25, 0).toFixed(2) + "h"; //hours instead of asHours
+    }
+    return "";
+  }
+
   private checkResetMonth() {
-    if (moment().format("YYYY MM") !== this.tempMonth.format("YYYY MM")) {
+    if (
+      this.currentMoment.format("YYYY MM") !==
+      this.tempCurrentMoment.format("YYYY MM")
+    ) {
       return true;
     }
     return false;
   }
 
   private isOtherMonth(day: moment.Moment) {
-    if (day.month() + 1 !== this.tempMonth.month() + 1) {
+    if (day.month() !== this.tempCurrentMoment.month()) {
       return true;
     }
     return false;
   }
 
   private isCurrentDate(day: moment.Moment) {
-    if (
-      day.month() + 1 === this.currentMonth &&
-      day.date() === this.currentDate
-    ) {
+    if (day.format("YYYY MM DD") === this.currentMoment.format("YYYY MM DD")) {
       return true;
     }
     return false;
@@ -157,10 +209,11 @@ export default class Home extends Vue {
   private isSunday(day: moment.Moment) {
     return day.day() === 0;
   }
+
   private checkAttendanceDay(day: moment.Moment) {
     if (
-      day.month() + 1 === this.currentMonth &&
-      day.date() <= this.currentDate
+      day <= this.currentMoment &&
+      day >= this.currentMoment.clone().startOf("month")
     ) {
       return true;
     }
@@ -168,21 +221,22 @@ export default class Home extends Vue {
   }
 
   private handleNextMonth() {
-    this.tempMonth = this.tempMonth.add(1, "M");
+    this.tempCurrentMoment.add(1, "M");
     this.calculateCalendar();
   }
 
   private handlePreviousMonth() {
-    this.tempMonth = this.tempMonth.add(-1, "M");
+    this.tempCurrentMoment.add(-1, "M");
     this.calculateCalendar();
   }
 
-  private onDateClick(day: moment.Moment) {
-    console.log(day.format("LLLL"));
+  private onDateClick(day: CheckInOutCalendar) {
+    this.calendar[day.id - 1].checkInTime = moment();
+    //this.updateCalendar++;
   }
 
   private resetCurrentMonth() {
-    this.tempMonth = moment();
+    this.tempCurrentMoment = moment();
     this.calculateCalendar();
   }
 }
@@ -191,6 +245,7 @@ export default class Home extends Vue {
 <style scoped lang="scss">
 .calendar {
   width: 100%;
+  font-size: 14px;
 
   header {
     text-align: center;
@@ -261,6 +316,7 @@ export default class Home extends Vue {
 .calendar .days li {
   height: 120px;
   cursor: pointer;
+  background-color: #fff;
 
   &:hover {
     background: #d3d3d3;
@@ -274,7 +330,7 @@ export default class Home extends Vue {
   padding: 2px;
 
   .day-number {
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 700;
 
     &.active {
@@ -295,7 +351,7 @@ export default class Home extends Vue {
 }
 
 .calendar .other-month {
-  background: #f5f5f5;
+  background-color: #f5f5f5 !important;
   color: #666;
 }
 
